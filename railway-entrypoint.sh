@@ -101,6 +101,10 @@ else
 fi
 chown www-data:www-data "$CONF"
 
+# Railway's edge address rotates per request (X-Forwarded-For is client, edge-hop), so binding a session to the client IP
+# logs every user out on the next request. Applied on every boot because the installer rewrites config.inc.php.
+sed -i 's/^session_check_ip[[:space:]]*=.*/session_check_ip = Off/' "$CONF"
+
 # Railway ignores OCI whiteouts, so mpm_event comes back beside mpm_prefork and Apache dies with "More than one MPM loaded"
 a2dismod -f mpm_event mpm_worker >/dev/null 2>&1 || true
 a2enmod mpm_prefork >/dev/null 2>&1 || true
