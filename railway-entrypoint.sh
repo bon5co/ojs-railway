@@ -101,6 +101,10 @@ else
 fi
 chown www-data:www-data "$CONF"
 
+# Railway ignores OCI whiteouts, so mpm_event comes back beside mpm_prefork and Apache dies with "More than one MPM loaded"
+a2dismod -f mpm_event mpm_worker >/dev/null 2>&1 || true
+a2enmod mpm_prefork >/dev/null 2>&1 || true
+
 export SERVERNAME="$SERVER_NAME"
 /usr/local/bin/pkp-pre-start >/dev/null
 
