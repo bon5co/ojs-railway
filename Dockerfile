@@ -20,6 +20,8 @@ COPY railway-entrypoint.sh /usr/local/bin/railway-entrypoint.sh
 RUN chmod +x /usr/local/bin/railway-entrypoint.sh
 
 ENV OJS_ADMIN_USERNAME=admin \
+    OJS_DB_USER=ojs \
+    OJS_DB_NAME=ojs \
     OJS_ADMIN_EMAIL=admin@example.com
 
 EXPOSE 8080
